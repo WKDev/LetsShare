@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_item"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Home" />
+    <item
+        android:id="@+id/category_item"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="Category" />
+    <item
+    android:id="@+id/chat_item"
+    android:icon="@android:drawable/sym_action_chat"
+    android:title="Chat" />
+    <item
+        android:id="@+id/account_item"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="Account" />
+</menu>
