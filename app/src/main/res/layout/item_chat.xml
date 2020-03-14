@@ -20,7 +20,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/itemlist_thumbnail"
+                android:id="@+id/chatlist_thumbnail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:srcCompat="@tools:sample/avatars[5]" />
@@ -33,20 +33,20 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/itemlist_name"
+                    android:id="@+id/chatlist_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Item"
                     android:textSize="25dp" />
 
                 <TextView
-                    android:id="@+id/itemlist_price"
+                    android:id="@+id/chatlist_contents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Price" />
 
                 <TextView
-                    android:id="@+id/itemlist_date"
+                    android:id="@+id/chatlist_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Date" />

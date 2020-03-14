@@ -11,12 +11,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.tbk.letsshare.MainFragment.FragmentAccount;
+import com.tbk.letsshare.MainFragment.FragmentCategory;
+import com.tbk.letsshare.MainFragment.FragmentChat;
+import com.tbk.letsshare.MainFragment.FragmentHome;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static java.sql.DriverManager.println;
 
 public class MainActivity extends AppCompatActivity {
+
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -25,12 +41,16 @@ public class MainActivity extends AppCompatActivity {
     private FragmentCategory fragmentCategory = new FragmentCategory();
     private FragmentChat fragmentChat = new FragmentChat();
     private FragmentAccount fragmentAccount = new FragmentAccount();
+    private String publicDNS = "ec2-13-209-22-0.ap-northeast-2.compute.amazonaws.com:8080";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         // 맨 처음에 나타날 Fragment 등록함
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -43,27 +63,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 final FragmentTransaction transaction1 = fragmentManager.beginTransaction();
-
                 switch(menuItem.getItemId()){
                     case R.id.home_item:
-                        transaction1.replace(R.id.main_frame, fragmentHome).commitAllowingStateLoss();
+                        transaction1.replace(R.id.main_frame, fragmentHome).commit();
                         break;
 
                     case R.id.category_item:
-                        transaction1.replace(R.id.main_frame, fragmentCategory).commitAllowingStateLoss();
+                        transaction1.replace(R.id.main_frame, fragmentCategory).commit();
                         break;
                     case R.id.chat_item:
-                        transaction1.replace(R.id.main_frame, fragmentChat).commitAllowingStateLoss();
+                        transaction1.replace(R.id.main_frame, fragmentChat).commit();
                         break;
                     case R.id.account_item:
-                        transaction1.replace(R.id.main_frame, fragmentAccount).commitAllowingStateLoss();
+                        transaction1.replace(R.id.main_frame, fragmentAccount).commit();
                         break;
 
                 }
                 return false;
             }
         });
-    }
+
+
+//
+}
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,4 +1,4 @@
-package com.tbk.letsshare;
+package com.tbk.letsshare.MainFragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,20 +13,23 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tbk.letsshare.ListManager.ItemListAdapter;
+import com.tbk.letsshare.ListManager.ItemListContainer;
+import com.tbk.letsshare.R;
+
 import java.util.ArrayList;
 
-// Fragment를 상속받는 클래스, onCreateView를 재정의하고, inflater를 통해 레이아웃 리소스 id로 생성된 View 반환
-public class FragmentHome extends Fragment {
-
+public class FragmentChat extends Fragment {
     private ArrayList<ItemListContainer> mArrayList;
     private ItemListAdapter mAdapter;
     private int count = -1;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_chat, container, false);
 
-        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_itemlist);
+        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_chatlist);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
 
@@ -40,14 +43,13 @@ public class FragmentHome extends Fragment {
                 mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
-
-        Button buttonInsert = (Button) rootView.findViewById(R.id.button_main_insert);
+        Button buttonInsert = (Button) rootView.findViewById(R.id.button_main_insert2);
         buttonInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 count++;
 
-                ItemListContainer data = new ItemListContainer(count + "", "Apple" + count, "사과" + count);
+                ItemListContainer data = new ItemListContainer(R.drawable.ic_launcher_background, "Name", "ChatContext will be displayed here", "Yesterday");
 
                 //mArrayList.add(0, dict); //RecyclerView의 첫 줄에 삽입
                 mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
@@ -58,16 +60,3 @@ public class FragmentHome extends Fragment {
         return rootView;
     }
 }
-//        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_itemlist);
-//
-//        recyclerView.setHasFixedSize(true);
-//
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//
-//        String[] Str = new String[]{"a","b","c"};
-//        mAdapter = new ItemListAdapter(Str);
-//        recyclerView.setAdapter(mAdapter);
-//
-//        Log.e("Frag", "MainFragment");
-//        return rootView;
-//    }

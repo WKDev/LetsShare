@@ -1,10 +1,22 @@
-package com.tbk.letsshare;
+package com.tbk.letsshare.ListManager;
 
 public class ItemListContainer {
 
+    private int imageNum;
     private String Name;
     private String Price;
     private String Date;
+
+    public ItemListContainer(int imageNum) {
+    }
+
+    public int getThumbnail() {
+        return imageNum;
+    }
+
+    public void setThumbnail(int image) {
+        this.imageNum = image;
+    }
 
     public String getName() {
         return Name;
@@ -30,9 +42,10 @@ public class ItemListContainer {
         Date = date;
     }
 
-    public ItemListContainer(String name, String price, String date) {
+    public ItemListContainer(int image, String name, String price, String date) {
+        this.imageNum = image;
         this.Name = name;
-        Price = price;
-        Date = date;
+        this.Price = price;
+        this.Date = date;
     }
 }
