@@ -1,8 +1,6 @@
 package com.tbk.letsshare;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +11,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.tbk.letsshare.Login_Data.LoginData;
-import com.tbk.letsshare.Login_Data.LoginResponse;
-import com.tbk.letsshare.MainFragment.FragmentAccount;
+import com.tbk.letsshare.Comm_Data.LoginData;
+import com.tbk.letsshare.Comm_Data.LoginResponse;
 import com.tbk.letsshare.network.RetrofitClient;
 import com.tbk.letsshare.network.ServiceApi;
 

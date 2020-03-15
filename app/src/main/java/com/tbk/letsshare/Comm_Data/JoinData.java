@@ -1,14 +1,17 @@
-package com.tbk.letsshare.Login_Data;
+package com.tbk.letsshare.Comm_Data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginData {
+public class JoinData {
+    @SerializedName("userName")
+    private String userName;
     @SerializedName("userEmail")
     private String userEmail;
     @SerializedName("userPwd")
     private String userPwd;
 
-    public LoginData(String userEmail, String userPwd){
+    public JoinData(String userName, String userEmail, String userPwd){
+        this.userName = userName;
         this.userEmail = userEmail;
         this.userPwd = userPwd;
     }

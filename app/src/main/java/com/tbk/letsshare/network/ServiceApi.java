@@ -1,9 +1,9 @@
 package com.tbk.letsshare.network;
 
-import com.tbk.letsshare.Login_Data.JoinData;
-import com.tbk.letsshare.Login_Data.JoinResponse;
-import com.tbk.letsshare.Login_Data.LoginData;
-import com.tbk.letsshare.Login_Data.LoginResponse;
+import com.tbk.letsshare.Comm_Data.JoinData;
+import com.tbk.letsshare.Comm_Data.JoinResponse;
+import com.tbk.letsshare.Comm_Data.LoginData;
+import com.tbk.letsshare.Comm_Data.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

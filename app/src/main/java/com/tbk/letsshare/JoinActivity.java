@@ -7,14 +7,13 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.tbk.letsshare.Login_Data.JoinData;
-import com.tbk.letsshare.Login_Data.JoinResponse;
+import com.tbk.letsshare.Comm_Data.JoinData;
+import com.tbk.letsshare.Comm_Data.JoinResponse;
 import com.tbk.letsshare.network.RetrofitClient;
 import com.tbk.letsshare.network.ServiceApi;
 
