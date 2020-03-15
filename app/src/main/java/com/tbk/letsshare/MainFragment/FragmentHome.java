@@ -1,5 +1,6 @@
 package com.tbk.letsshare.MainFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.tbk.letsshare.ListManager.ItemListAdapter;
 import com.tbk.letsshare.ListManager.ItemListContainer;
+import com.tbk.letsshare.LoginActivity;
 import com.tbk.letsshare.MainActivity;
 import com.tbk.letsshare.R;
 
@@ -29,6 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static com.tbk.letsshare.LoginActivity.KEY_VALUE;
 
 // Fragment를 상속받는 클래스, onCreateView를 재정의하고, inflater를 통해 레이아웃 리소스 id로 생성된 View 반환
 public class FragmentHome extends Fragment {
@@ -45,9 +49,7 @@ public class FragmentHome extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-
         mArrayList = new ArrayList<>();
-
         mAdapter = new ItemListAdapter(mArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -69,6 +71,7 @@ public class FragmentHome extends Fragment {
             }
         });
         return rootView;
+
     }
 
 }
