@@ -1,8 +1,5 @@
 package com.tbk.letsshare.ListManager;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.tbk.letsshare.R;
 
 import java.util.ArrayList;
-//import java.util.Dictionary;
 
+public class SearchResultAdapter extends RecyclerView.Adapter<ItemListAdapter.CustomViewHolder> {
 
-public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.CustomViewHolder> {
-
-    private ArrayList<ItemListContainer> mList;
+    private ArrayList<SearchResultContainer> mList;
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         protected ImageView thumbnail;
@@ -36,7 +34,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Custom
         }
     }
 
-    public ItemListAdapter(ArrayList<ItemListContainer> list) {
+    public SearchResultAdapter(ArrayList<ItemListContainer> list) {
         this.mList = list;
     }
 
@@ -77,4 +75,3 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Custom
 
 
 
-}

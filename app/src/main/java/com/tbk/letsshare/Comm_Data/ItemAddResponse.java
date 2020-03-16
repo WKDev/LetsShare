@@ -16,5 +16,9 @@ public class ItemAddResponse {
             return message;
         }
 
+    public String getMessage(){
+        return message;
+    }
+
 }
 
