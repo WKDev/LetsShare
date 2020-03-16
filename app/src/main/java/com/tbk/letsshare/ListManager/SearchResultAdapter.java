@@ -50,8 +50,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<ItemListAdapter.Cu
     }
 
 
-
-
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
 
