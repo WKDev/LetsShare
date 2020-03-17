@@ -2,21 +2,25 @@ package com.tbk.letsshare;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.tbk.letsshare.Comm_Data.ItemDataResponse;
-import com.tbk.letsshare.Comm_Data.LoginData;
 import com.tbk.letsshare.Comm_Data.LoginResponse;
 import com.tbk.letsshare.Comm_Data.SearchRequest;
 import com.tbk.letsshare.Comm_Data.SearchResult;
 import com.tbk.letsshare.ListManager.ItemListAdapter;
 import com.tbk.letsshare.ListManager.ItemListContainer;
+import com.tbk.letsshare.ListManager.SearchResultAdapter;
+import com.tbk.letsshare.ListManager.SearchResultContainer;
+import com.tbk.letsshare.network.RetrofitClient;
 import com.tbk.letsshare.network.ServiceApi;
 
 import java.util.ArrayList;
@@ -27,6 +31,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class searchResultActivity extends AppCompatActivity {
+
+    private RecyclerView SRrecyclerView;
+    private ArrayList<SearchResultContainer> SRArrayList;
+    private SearchResultAdapter SRAdapter;
+
+
     private ServiceApi service;
     private String inputData;
 
@@ -39,31 +49,35 @@ public class searchResultActivity extends AppCompatActivity {
         Intent aIntent = getIntent();
         inputData = aIntent.getStringExtra("searched");
 
-        parseSearchedItem(new SearchRequest(inputData));
+        SRrecyclerView = (RecyclerView) findViewById(R.id.sr_itemlist);
+        service = RetrofitClient.getClient().create(ServiceApi.class);
 
-    }
+        SearchRequest request = new SearchRequest(inputData);
 
-    protected void parseItemData(SearchRequest data) {
-        Call<List<SearchResult>> call = service.searchItem(data);
-        call.enqueue(new Callback<List<SearchResult>>() {
+        Toast.makeText(getApplicationContext(), "입력 : " + request.getSearchTitle() + "에 대한 검색 실행", Toast.LENGTH_SHORT).show();
+
+        service.searchItem(request).enqueue(new Callback<List<SearchResult>>() {
             @Override
             public void onResponse(Call<List<SearchResult>> call, Response<List<SearchResult>> response) {
+                Toast.makeText(getApplicationContext(), "Server Responsed to Request.", Toast.LENGTH_SHORT).show();
                 List<SearchResult> resource = response.body();
                 LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                mRecyclerView.setHasFixedSize(true);
-                mRecyclerView.setLayoutManager(mLinearLayoutManager);
+                SRrecyclerView.setHasFixedSize(true);
+                SRrecyclerView.setLayoutManager(mLinearLayoutManager);
 
-                mArrayList = new ArrayList<>();
-                mAdapter = new ItemListAdapter(mArrayList);
-                mRecyclerView.setAdapter(mAdapter);
-                for (ItemDataResponse data : resource) {
-                    ItemListContainer itemBowl = new ItemListContainer(R.drawable.ic_launcher_background, data.parsedTitle, data.parsedPrice, data.parsedWriter);
-                    mArrayList.add(itemBowl);
-                    mAdapter.notifyDataSetChanged();
+                SRArrayList = new ArrayList<>();
+                SRAdapter = new SearchResultAdapter(SRArrayList);
+                SRrecyclerView.setAdapter(SRAdapter);
+
+                for (SearchResult data : resource) {
+                    SRrecyclerView.setAdapter(SRAdapter);
+                    SearchResultContainer itemBowl = new SearchResultContainer(R.drawable.ic_launcher_background, data.getResultTitle(), data.getResultPrice(), data.getResultWriter());
+                    Toast.makeText(getApplicationContext(), data.getResultTitle() + "찾음", Toast.LENGTH_SHORT).show();
+
+                    SRArrayList.add(itemBowl);
+                    SRAdapter.notifyDataSetChanged();
                 }
-                Toast.makeText(getApplicationContext(), "Succeeded to parsing itemData from DB", Toast.LENGTH_LONG).show();
-
-
+                Toast.makeText(getApplicationContext(), "Server Responsed to Request.", Toast.LENGTH_LONG).show();
 
             }
 
@@ -78,5 +92,6 @@ public class searchResultActivity extends AppCompatActivity {
 
             }
         });
+
     }
 }

@@ -14,18 +14,18 @@ import com.tbk.letsshare.R;
 
 import java.util.ArrayList;
 
-public class SearchResultAdapter extends RecyclerView.Adapter<ItemListAdapter.CustomViewHolder> {
+public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SRViewHolder> {
 
     private ArrayList<SearchResultContainer> mList;
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public class SRViewHolder extends RecyclerView.ViewHolder {
         protected ImageView thumbnail;
         protected TextView name;
         protected TextView price;
         protected TextView date;
 
 
-        public CustomViewHolder(View view) {
+        public SRViewHolder(View view) {
             super(view);
             this.thumbnail = (ImageView) view.findViewById(R.id.itemlist_thumbnail);
             this.name = (TextView) view.findViewById(R.id.itemlist_name);
@@ -34,26 +34,25 @@ public class SearchResultAdapter extends RecyclerView.Adapter<ItemListAdapter.Cu
         }
     }
 
-    public SearchResultAdapter(ArrayList<ItemListContainer> list) {
+    public SearchResultAdapter(ArrayList<SearchResultContainer> list) {
         this.mList = list;
     }
 
     @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public SRViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item, viewGroup, false);
 
-        CustomViewHolder viewHolder = new CustomViewHolder(view);
+        SRViewHolder viewHolder = new SRViewHolder(view);
 
         return viewHolder;
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
+    public void onBindViewHolder(@NonNull SRViewHolder viewholder, int position) {
 
-        ItemListContainer data = mList.get(position);
+        SearchResultContainer data = mList.get(position);
 
         viewholder.thumbnail.setImageResource(data.getThumbnail());
 
@@ -70,6 +69,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<ItemListAdapter.Cu
     public int getItemCount() {
         return (null != mList ? mList.size() : 0);
     }
+
+}
 
 
 

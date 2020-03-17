@@ -87,11 +87,12 @@ public class FragmentHome extends Fragment {
                 mAdapter = new ItemListAdapter(mArrayList);
                 mRecyclerView.setAdapter(mAdapter);
                 for (ItemDataResponse data : resource) {
-                            ItemListContainer itemBowl = new ItemListContainer(R.drawable.ic_launcher_background, data.parsedTitle, data.parsedPrice, data.parsedWriter);
+                    mRecyclerView.setAdapter(mAdapter);
+                    ItemListContainer itemBowl = new ItemListContainer(R.drawable.ic_launcher_background, data.parsedTitle, data.parsedPrice, data.parsedWriter);
                             mArrayList.add(itemBowl);
                             mAdapter.notifyDataSetChanged();
                         }
-                        Toast.makeText(getContext(), "Succeeded to parsing itemData from DB", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Succeeded to parsing itemData from DB", Toast.LENGTH_LONG).show();
 
             }
 

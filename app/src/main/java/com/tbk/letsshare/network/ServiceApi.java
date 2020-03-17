@@ -27,7 +27,7 @@ public interface ServiceApi {
     @POST("/user/board")
     Call<ItemAddResponse> itemAdd(@Body ItemAddData data);
 
-    @GET("/user/find")
+    @GET("/user/inquiredata")
     Call<List<ItemDataResponse>> importItem();
 
     @POST("/user/login")

@@ -51,7 +51,6 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra("searched", searchText);
                 startActivity(intent);
 
-
             }
         });
 
