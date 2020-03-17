@@ -56,9 +56,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
         viewholder.thumbnail.setImageResource(data.getThumbnail());
 
-        viewholder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        viewholder.price.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        viewholder.date.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+//        viewholder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+//        viewholder.price.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+//        viewholder.date.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8);
 
         viewholder.name.setText(mList.get(position).getName());
         viewholder.price.setText(mList.get(position).getPrice());

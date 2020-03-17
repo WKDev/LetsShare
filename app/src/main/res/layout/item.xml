@@ -37,19 +37,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Item"
-                    android:textSize="25dp" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/itemlist_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Price" />
+                    android:text="Price"
+                    android:textSize="24sp"/>
 
                 <TextView
                     android:id="@+id/itemlist_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Date" />
+                    android:text="Date"
+                    android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>
 

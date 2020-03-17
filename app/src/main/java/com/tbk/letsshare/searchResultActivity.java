@@ -48,6 +48,7 @@ public class searchResultActivity extends AppCompatActivity {
 
         Intent aIntent = getIntent();
         inputData = aIntent.getStringExtra("searched");
+        inputData = "\'%" + inputData + "%\'"; // 포함검색을 하기 위해 SQL 쿼리 %% 추가함;
 
         SRrecyclerView = (RecyclerView) findViewById(R.id.sr_itemlist);
         service = RetrofitClient.getClient().create(ServiceApi.class);
@@ -70,11 +71,9 @@ public class searchResultActivity extends AppCompatActivity {
                 SRrecyclerView.setAdapter(SRAdapter);
 
                 for (SearchResult data : resource) {
-                    SRrecyclerView.setAdapter(SRAdapter);
                     SearchResultContainer itemBowl = new SearchResultContainer(R.drawable.ic_launcher_background, data.getResultTitle(), data.getResultPrice(), data.getResultWriter());
-                    Toast.makeText(getApplicationContext(), data.getResultTitle() + "찾음", Toast.LENGTH_SHORT).show();
-
                     SRArrayList.add(itemBowl);
+                    SRrecyclerView.setAdapter(SRAdapter);
                     SRAdapter.notifyDataSetChanged();
                 }
                 Toast.makeText(getApplicationContext(), "Server Responsed to Request.", Toast.LENGTH_LONG).show();

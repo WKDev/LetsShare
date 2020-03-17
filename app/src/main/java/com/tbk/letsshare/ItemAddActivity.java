@@ -46,7 +46,7 @@ public class ItemAddActivity extends AppCompatActivity {
                 String title = titleText.getText().toString();
                 String price = priceText.getText().toString();
                 String description = descText.getText().toString();
-                String writer = "TestWriter_hastobeModified";
+                String writer = "tbk_test";
 
                 addItemToDatabase(new ItemAddData(title, price, description, writer));
             }
