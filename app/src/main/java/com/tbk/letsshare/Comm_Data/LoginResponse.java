@@ -9,8 +9,25 @@ public class LoginResponse {
     @SerializedName("message")
     private String message;
 
-    @SerializedName("userId")
+    public String getEmail() {
+        return email;
+    }
+
+    @SerializedName("email")
+    private String email;
+
+    @SerializedName("_id")
     private String userId;
+
+    @SerializedName("nickname")
+    private String nickname;
+
+    @SerializedName("auto_login")
+    private String autoLogin;
+
+    public String getAutoLogin() {
+        return autoLogin;
+    }
 
     public int getCode(){
         return code;
@@ -24,4 +41,7 @@ public class LoginResponse {
         return userId;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
 }

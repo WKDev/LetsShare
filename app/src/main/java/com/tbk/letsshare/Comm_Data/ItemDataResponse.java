@@ -12,6 +12,10 @@ public class ItemDataResponse {
 
     @SerializedName("parsed_description")
     public String parsedDescription;
+    @SerializedName("parsed_date")
+    public String parsedDate;
+    @SerializedName("parsed_writer")
+    public String parsedWriter;
 
     public String getParsedTitle() {
         return parsedTitle;
@@ -25,11 +29,11 @@ public class ItemDataResponse {
         return parsedDescription;
     }
 
+    public String getParsedDate() {
+        return parsedDate;
+    }
+
     public String getParsedWriter() {
         return parsedWriter;
     }
-
-    @SerializedName("parsed_writer")
-    public String parsedWriter;
-
 }

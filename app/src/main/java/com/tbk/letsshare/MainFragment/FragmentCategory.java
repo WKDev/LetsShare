@@ -12,6 +12,10 @@ import androidx.fragment.app.Fragment;
 import com.tbk.letsshare.R;
 
 public class FragmentCategory extends Fragment {
+
+    public static FragmentCategory newInstance() {
+        return new FragmentCategory();
+    }
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_category, container, false);
     }

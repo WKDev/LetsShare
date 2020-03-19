@@ -12,6 +12,20 @@ public class SearchResult {
     @SerializedName("search_result_writer")
     private String resultWriter;
 
+    @SerializedName("search_result_date")
+    private String resultDate;
+
+    @SerializedName("search_result_desc")
+    private String resultDescription;
+
+    public String getResultDate() {
+        return resultDate;
+    }
+
+    public String getResultDescription() {
+        return resultDescription;
+    }
+
     public String getResultTitle() {
         return resultTitle;
     }

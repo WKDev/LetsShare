@@ -50,6 +50,7 @@ public class SearchActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), searchResultActivity.class);
                 intent.putExtra("searched", searchText);
                 startActivity(intent);
+                finish();
 
             }
         });

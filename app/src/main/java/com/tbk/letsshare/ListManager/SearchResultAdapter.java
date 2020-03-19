@@ -17,6 +17,16 @@ import java.util.ArrayList;
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SRViewHolder> {
 
     private ArrayList<SearchResultContainer> mList;
+    private SearchResultAdapter.OnItemClickListener mListener = null;
+
+    public interface OnItemClickListener{
+        void onItemClick(View v, int pos);
+    }
+
+    public void setOnItemClickListener(SearchResultAdapter.OnItemClickListener listener){
+        this.mListener = listener;
+    }
+
 
     public class SRViewHolder extends RecyclerView.ViewHolder {
         protected ImageView thumbnail;
@@ -50,7 +60,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SRViewHolder viewholder, int position) {
+    public void onBindViewHolder(@NonNull SRViewHolder viewholder, final int position) {
 
         SearchResultContainer data = mList.get(position);
 
@@ -63,6 +73,19 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         viewholder.name.setText(mList.get(position).getName());
         viewholder.price.setText(mList.get(position).getPrice());
         viewholder.date.setText(mList.get(position).getDate());
+
+        viewholder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = position;
+
+                if(pos!= RecyclerView.NO_POSITION){
+                    if(mListener!=null){
+                        mListener.onItemClick(v, pos);
+                    }
+                }
+            }
+        });
     }
 
     @Override

@@ -32,6 +32,8 @@ public class ItemDetailedActivity extends AppCompatActivity {
     private TextView detailedTitle;
     private TextView detailedPrice;
     private TextView detailedDescription;
+    private TextView detailedWriter;
+    private TextView detailedDate;
 
     private Intent intent;
     @Override
@@ -42,11 +44,15 @@ public class ItemDetailedActivity extends AppCompatActivity {
         detailedTitle = findViewById(R.id.detailed_title);
         detailedPrice = findViewById(R.id.detailed_price);
         detailedDescription = findViewById(R.id.detailed_description);
+        detailedWriter = findViewById(R.id.detailed_writer);
+        detailedDate = findViewById(R.id.detailed_date);
 
         Intent intent = getIntent();
 
         detailedTitle.setText(intent.getStringExtra("title"));
         detailedPrice.setText(intent.getStringExtra("price"));
-        detailedDescription.setText(intent.getStringExtra("writer"));
+        detailedDescription.setText(intent.getStringExtra("desc"));
+        detailedWriter.setText(intent.getStringExtra("writer"));
+        detailedDate.setText(intent.getStringExtra("date"));
     }
 }

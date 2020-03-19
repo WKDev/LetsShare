@@ -1,39 +1,32 @@
 package com.tbk.letsshare;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tbk.letsshare.MainFragment.FragmentAccount;
 import com.tbk.letsshare.MainFragment.FragmentCategory;
 import com.tbk.letsshare.MainFragment.FragmentChat;
 import com.tbk.letsshare.MainFragment.FragmentHome;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import static java.sql.DriverManager.println;
 
 public class MainActivity extends AppCompatActivity {
+
+    private SharedPreferences sf;
+    private SharedPreferences.Editor editor;
+
+    public int inAppLoginState = 404;
+    public int loginRes;
 
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
@@ -43,12 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private FragmentCategory fragmentCategory = new FragmentCategory();
     private FragmentChat fragmentChat = new FragmentChat();
     private FragmentAccount fragmentAccount = new FragmentAccount();
-    private String publicDNS = "ec2-13-209-22-0.ap-northeast-2.compute.amazonaws.com:8080";
-    private String parsedData = "0";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -65,42 +56,54 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 final FragmentTransaction transaction1 = fragmentManager.beginTransaction();
-                switch(menuItem.getItemId()){
-                    case R.id.home_item:
+
+                switch (menuItem.getItemId()) {
+                    case R.id.home_item: {
                         transaction1.replace(R.id.main_frame, fragmentHome).commit();
                         break;
-
-                    case R.id.category_item:
+                    }
+                    case R.id.category_item: {
                         transaction1.replace(R.id.main_frame, fragmentCategory).commit();
                         break;
-                    case R.id.chat_item:
+                    }
+                    case R.id.chat_item: {
                         transaction1.replace(R.id.main_frame, fragmentChat).commit();
                         break;
-                    case R.id.account_item:
+                    }
+                    case R.id.account_item: {
+                        sf = getSharedPreferences("sFile", MODE_PRIVATE);
+                    }
+                    inAppLoginState = sf.getInt("login_state", 404);
 
-                        Intent intent = getIntent();
-                        parsedData = intent.getStringExtra("mydata");
-
-                        if(parsedData == null){
-                            Toast.makeText(getApplicationContext(), "null handed-over", Toast.LENGTH_LONG).show();
-                            Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(myIntent);
-
-
-                        } else{
-                            transaction1.replace(R.id.main_frame, fragmentAccount).commit();
-                            Toast.makeText(getApplicationContext(), "not-null handed-over", Toast.LENGTH_LONG).show();
-                        }
-
-
-                        break;
-
+                    if (inAppLoginState == 200) {
+                        //Toast.makeText(getApplicationContext(), "로그인 성공, fragmentAccount로 이동", Toast.LENGTH_SHORT).show();
+                        transaction1.replace(R.id.main_frame, fragmentAccount).commit();
+                    } else if (inAppLoginState == 404) {
+                        Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(myIntent);
+                    }
+                    break;
                 }
                 return false;
             }
-        });
+        }
 
+        );
 }
+
+
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+//        editor = sf.edit();
+//        editor.putString("code","logged-out").commit();
+        super.onDestroy();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -111,12 +114,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-         //액션바 아이템 눌림 이벤트 handle
-        if(item.getItemId() == R.id.action_search){
+        //액션바 아이템 눌림 이벤트 handle
+        if (item.getItemId() == R.id.action_search) {
             Intent myIntent = new Intent(getApplicationContext(), SearchActivity.class);
             startActivity(myIntent);
         }
-        if(item.getItemId() == R.id.action_add){
+        if (item.getItemId() == R.id.action_add) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.remove(fragmentHome);
             Intent myIntent = new Intent(getApplicationContext(), ItemAddActivity.class);
             startActivity(myIntent);
         }

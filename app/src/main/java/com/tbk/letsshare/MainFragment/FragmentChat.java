@@ -20,6 +20,11 @@ import com.tbk.letsshare.R;
 import java.util.ArrayList;
 
 public class FragmentChat extends Fragment {
+
+    public static FragmentChat newInstance() {
+        return new FragmentChat();
+    }
+
     private ArrayList<ItemListContainer> mArrayList;
     private ItemListAdapter mAdapter;
     private int count = -1;
