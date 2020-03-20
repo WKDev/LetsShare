@@ -23,6 +23,10 @@ public class RetrofitClient {
         return retrofit;
     }
 
+    public static String getBaseUrl() {
+        return BASE_URL;
+    }
+
     //https://androidclarified.com/android-image-upload-example/ 참조
     public static Retrofit getImageClient(Context context) {
         if (retrofit == null) {

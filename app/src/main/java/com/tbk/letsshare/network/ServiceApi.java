@@ -73,6 +73,6 @@ public interface ServiceApi {
 //    파일 이름과 파트 이름을 MultipartBody.Part를
 
     @Multipart
-    @POST("user/item/image/")
-    Call<ResponseBody> uploadImage(@Part MultipartBody.Part image,  @Part("name") RequestBody requestBody);
+    @POST("/upload")
+    Call<ItemAddResponse> uploadImage(@Part MultipartBody.Part image, @Part("upload") RequestBody name);
 }

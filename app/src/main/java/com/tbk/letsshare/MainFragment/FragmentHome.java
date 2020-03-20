@@ -67,7 +67,7 @@ public class FragmentHome extends Fragment {
         parseItemData();
         mAdapter = new ItemListAdapter(mArrayList);
 
-      //  mRefresh.setColorSchemeResources(R.color.yellow, R.color.red, R.color.black, R.color.blue);
+        //  mRefresh.setColorSchemeResources(R.color.yellow, R.color.red, R.color.black, R.color.blue);
         mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -78,9 +78,9 @@ public class FragmentHome extends Fragment {
                         parseItemData();
                         mRefresh.setRefreshing(false);
                     }
-                },1000);
+                }, 1000);
 
-               parseItemData();
+                parseItemData();
             }
         });
         return rootView;
@@ -125,20 +125,20 @@ public class FragmentHome extends Fragment {
                         }
                     });
                 }
+            }
 //                        Toast.makeText(getActivity(), "Succeeded to parsing itemData from DB", Toast.LENGTH_SHORT).show();
+
+        @Override
+        public void onFailure (Call < List < ItemDataResponse >> call, Throwable t){
+            try {
+                Toast.makeText(getActivity(), "DB와의 통신에 실패했습니다.", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), "에러 발생, 앱을 종료합니다.", Toast.LENGTH_LONG).show();
+                Log.e("에러 발생", t.getMessage());
             }
 
-            @Override
-            public void onFailure(Call<List<ItemDataResponse>> call, Throwable t) {
-                try {
-                    Toast.makeText(getActivity(), "DB와의 통신에 실패했습니다.", Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), "에러 발생, 앱을 종료합니다.", Toast.LENGTH_LONG).show();
-                    Log.e("에러 발생", t.getMessage());
-                }
-
-            }
-        });
-    }
+        }
+    });
+}
 
 }

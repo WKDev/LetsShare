@@ -12,8 +12,14 @@
     <ImageView
         android:id="@+id/itemadd_img"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="301dp"
         tools:srcCompat="@drawable/ic_image" />
+
+    <Button
+        android:id="@+id/select_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="select" />
 
     <EditText
         android:id="@+id/itemadd_title"
@@ -43,5 +49,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:hint="Add" />
+        android:text="Add" />
 </LinearLayout>
