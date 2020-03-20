@@ -59,9 +59,9 @@ public interface ServiceApi {
 //https://androidclarified.com/android-image-upload-example/
     // Retrofit2에서 인터페이스 메서드는 애플리케이션와 상호작용하는 api를 정의하는 데 쓰인다. 여기에서는 ServiceApi 가 해당된다/
     //이미지를 업로드하기 위해 필요한 Multipart와 part api를 정의한다.
-    @Multipart //requestbody(요청하는 형태)가 multi-part임을 denote한다. 파라미터로서 @Part가 선언 및 어노테이션 되어야 ㅎ나다.
-    @POST("user/item/image/")
-    Call<Response> uploadImage(@Part MultipartBody.Part image,  @Part("name") RequestBody requestBody);
+//    @Multipart //requestbody(요청하는 형태)가 multi-part임을 denote한다. 파라미터로서 @Part가 선언 및 어노테이션 되어야 ㅎ나다.
+//    @POST("user/item/image/")
+//    Call<Response> uploadImage(@Part MultipartBody.Part image,  @Part("name") RequestBody requestBody);
 //    multipart 형태의 요청에 개별 부분을 denote한다/ part의 파라미터 형태는 아래처럼 세 가지 형태 로 처리된다/
 //    파라미터 타입이 MultipartBody.Part인 경우 컨텐츠는 직접적으로 쓰이며, 이름은 어노테이션과 같이 쓰일 필요 없다.@Part MultipartBody.Part part
 //    타입이 RequestBody인 경우 값은 컨텐츠 형과 함께 직접적으로 같이 쓰인다. 어노테이션 안에 part를 추가해야한다.@Part("foo") RequestBody foo).
@@ -72,4 +72,7 @@ public interface ServiceApi {
 //    파일 경로를 사용해서 우리는 파일 객체를 만들고 이미지파일을 가진 multipartbody를 만들 것이다. requestbody에서 우리는 아래 코드 스니펫에서 보듯
 //    파일 이름과 파트 이름을 MultipartBody.Part를
 
+    @Multipart
+    @POST("user/item/image/")
+    Call<ResponseBody> uploadImage(@Part MultipartBody.Part image,  @Part("name") RequestBody requestBody);
 }
