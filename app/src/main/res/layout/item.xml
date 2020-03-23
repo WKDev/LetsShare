@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/itemlist_thumbnail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="163dp"
+                android:layout_height="154dp"
                 tools:srcCompat="@tools:sample/avatars[5]" />
 
             <LinearLayout

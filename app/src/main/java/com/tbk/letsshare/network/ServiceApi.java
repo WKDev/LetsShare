@@ -1,8 +1,7 @@
 package com.tbk.letsshare.network;
 
-import com.google.gson.annotations.SerializedName;
-import com.tbk.letsshare.Comm_Data.ImportDataReq;
-import com.tbk.letsshare.Comm_Data.ImportDataRes;
+import com.tbk.letsshare.Comm_Data.ChatRoomReq;
+import com.tbk.letsshare.Comm_Data.ChatRoomRes;
 import com.tbk.letsshare.Comm_Data.ItemAddData;
 import com.tbk.letsshare.Comm_Data.ItemAddResponse;
 import com.tbk.letsshare.Comm_Data.ItemDataResponse;
@@ -22,15 +21,12 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Query;
 
 public interface ServiceApi {
 
@@ -54,8 +50,7 @@ public interface ServiceApi {
 
     @POST("/user/state")
     Call<verifyStateRes> changeState(@Body verifyStateReq data);
-    @POST("/user/importdata")
-    Call<ImportDataRes> importData(@Body ImportDataReq data);
+
 //https://androidclarified.com/android-image-upload-example/
     // Retrofit2에서 인터페이스 메서드는 애플리케이션와 상호작용하는 api를 정의하는 데 쓰인다. 여기에서는 ServiceApi 가 해당된다/
     //이미지를 업로드하기 위해 필요한 Multipart와 part api를 정의한다.
@@ -71,6 +66,10 @@ public interface ServiceApi {
 //    이 메서드에서 입력 매개변수는 단순한 이미지 파일 경로다. 이미 알겠지만, 갤러리나 카메라에서 어떻게 파일의 경로를 알아내는지 배우고 싶다면 이 튜토리얼을 읽어라
 //    파일 경로를 사용해서 우리는 파일 객체를 만들고 이미지파일을 가진 multipartbody를 만들 것이다. requestbody에서 우리는 아래 코드 스니펫에서 보듯
 //    파일 이름과 파트 이름을 MultipartBody.Part를
+
+    @POST("/chat/chatroom")
+    Call<List<ChatRoomRes>> chatRoom(@Body ChatRoomReq data);
+
 
     @Multipart
     @POST("/upload")

@@ -33,23 +33,18 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/chatlist_name"
+                    android:id="@+id/chatlist_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Item"
                     android:textSize="25dp" />
 
                 <TextView
-                    android:id="@+id/chatlist_contents"
+                    android:id="@+id/chatlist_last_statement"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Price" />
 
-                <TextView
-                    android:id="@+id/chatlist_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Date" />
             </LinearLayout>
         </LinearLayout>
 

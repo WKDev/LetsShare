@@ -2,20 +2,35 @@ package com.tbk.letsshare.ListManager;
 
 public class ItemListContainer {
 
-    private int imageNum;
+    private String image;
     private String Name;
     private String Price;
     private String Date;
+    private String Writer;
+    private String Description;
 
-    public ItemListContainer(int imageNum) {
+    public String getWriter() {
+        return Writer;
     }
 
-    public int getThumbnail() {
-        return imageNum;
+    public void setWriter(String writer) {
+        Writer = writer;
     }
 
-    public void setThumbnail(int image) {
-        this.imageNum = image;
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public String getImageURL() {
+        return image;
+    }
+
+    public void setThumbnail(String image) {
+        this.image = image;
     }
 
     public String getName() {
@@ -42,10 +57,5 @@ public class ItemListContainer {
         Date = date;
     }
 
-    public ItemListContainer(int image, String name, String price, String date) {
-        this.imageNum = image;
-        this.Name = name;
-        this.Price = price;
-        this.Date = date;
-    }
+
 }

@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class ItemDataResponse {
 
+    @SerializedName("parsed_img")
+    public String parsedImg;
+
     @SerializedName("parsed_title")
     public String parsedTitle;
 

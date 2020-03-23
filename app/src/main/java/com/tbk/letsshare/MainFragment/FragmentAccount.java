@@ -1,6 +1,5 @@
 package com.tbk.letsshare.MainFragment;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,19 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.tbk.letsshare.Comm_Data.ImportDataReq;
-import com.tbk.letsshare.Comm_Data.ImportDataRes;
-import com.tbk.letsshare.Comm_Data.LoginData;
-import com.tbk.letsshare.Comm_Data.LoginResponse;
 import com.tbk.letsshare.Comm_Data.LogoutReq;
 import com.tbk.letsshare.Comm_Data.LogoutRes;
 import com.tbk.letsshare.Comm_Data.verifyStateReq;
 import com.tbk.letsshare.Comm_Data.verifyStateRes;
-import com.tbk.letsshare.ItemDetailedActivity;
-import com.tbk.letsshare.LoginActivity;
 import com.tbk.letsshare.MainActivity;
 import com.tbk.letsshare.R;
 import com.tbk.letsshare.network.RetrofitClient;
@@ -80,18 +69,12 @@ public class FragmentAccount extends Fragment {
 
         sf = getActivity().getSharedPreferences("sFile", MODE_PRIVATE);
 
-
         userID = sf.getString("user_id", "NaN");
 
         accId.setText(userID);
-        accEmail.setText(sf.getString("nickname", "NaN"));
+        accNickname.setText(sf.getString("nickname", "NaN"));
         accEmail.setText(sf.getString("email", "NaN"));
 
-//        intent = getActivity().getIntent();
-//        accId.setText(intent.getStringExtra("user_id"));
-//        accNickname.setText(intent.getStringExtra("nickname"));
-//        accEmail.setText(intent.getStringExtra("email"));
-//
         aLoginState = sf.getString("auto_login", "false");
 
         if(aLoginState == "true") {
@@ -170,22 +153,6 @@ public class FragmentAccount extends Fragment {
             }
         }); //ServiceApi에서 나옴
     }
-//
-//    private void importData(final ImportDataReq data) {
-//        service2.importData(data).enqueue(new Callback<ImportDataRes>() {
-//            @Override
-//            public void onResponse(Call<ImportDataRes> call, Response<ImportDataRes> response) {
-//                ImportDataRes result = response.body();
-//                AutoLoginBox.setChecked(result.getValue());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ImportDataRes> call, Throwable t) {
-//
-//            }
-//        }); //ServiceApi에서 나옴
-//    }
-
 
     private void logout(LogoutReq data) {
         service.userLogout(data).enqueue(new Callback<LogoutRes>() {

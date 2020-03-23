@@ -1,51 +1,35 @@
 package com.tbk.letsshare.ListManager;
 
 public class ChatListContainer {
+//req : buyer_id, mode
+//res : chat_room_id, seller_id,last_statement
 
-    private int imageNum;
-    private String Name;
-    private String Contents;
-    private String Date;
+    private String roomId;
+    private String roomTitle; //seller_id
+    private String last_statement;
 
-    public ChatListContainer(int imageNum) {
+    public String getRoomId() {
+        return roomId;
     }
 
-    public int getThumbnail() {
-        return imageNum;
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 
-    public void setThumbnail(int image) {
-        this.imageNum = image;
+    public String getRoomTitle() {
+        return roomTitle;
     }
 
-    public String getName() {
-        return Name;
+    public void setRoomTitle(String roomTitle) {
+        this.roomTitle = roomTitle;
     }
 
-    public void setName(String name) {
-        this.Name = name;
+    public String getLast_statement() {
+        return last_statement;
     }
 
-    public String getContents() {
-        return Contents;
+    public void setLast_statement(String last_statement) {
+        this.last_statement = last_statement;
     }
 
-    public void setContents(String content) {
-        Contents = content;
-    }
-
-    public String getDate() {
-        return Date;
-    }
-
-    public void setDate(String date) {
-        Date = date;
-    }
-
-    public ChatListContainer(int image, String name, String content, String date) {
-        this.imageNum = image;
-        this.Name = name;
-        this.Contents = content;
-        this.Date = date;
-    }
 }

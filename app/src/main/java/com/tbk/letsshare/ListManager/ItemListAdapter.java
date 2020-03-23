@@ -4,16 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.tbk.letsshare.ItemDetailedActivity;
+import com.squareup.picasso.Picasso;
 import com.tbk.letsshare.R;
 
 import java.util.ArrayList;
@@ -72,7 +69,11 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Custom
 
         ItemListContainer data = mList.get(position);
 
-        viewholder.thumbnail.setImageResource(data.getThumbnail());
+
+        Context context = viewholder.thumbnail.getContext();
+
+        //https://www.learn2crack.com/2016/02/image-loading-recyclerview-picasso.html picasso 사용 참조
+        Picasso.get().load(mList.get(position).getImageURL()).resize(300, 160).into(viewholder.thumbnail);
 
         viewholder.name.setText(mList.get(position).getName());
         viewholder.price.setText(mList.get(position).getPrice());
@@ -91,6 +92,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Custom
             }
         });
     }
+
+
 
     @Override
     public int getItemCount() {

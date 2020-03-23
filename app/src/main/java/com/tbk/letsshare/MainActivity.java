@@ -91,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
         );
 }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+         //출처: https://jhshjs.tistory.com/entry/안드로이드-Activity-Fragment-각각에서-각각의-함수변수-접근 [독학하는 1인 개발자]
+    }
 
     @Override
     protected void onStop() {

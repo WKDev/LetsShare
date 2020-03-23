@@ -1,67 +1,143 @@
 package com.tbk.letsshare.MainFragment;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.squareup.picasso.Picasso;
+import com.tbk.letsshare.ChatRoomActivity;
+import com.tbk.letsshare.Comm_Data.ChatRoomReq;
+import com.tbk.letsshare.Comm_Data.ChatRoomRes;
+import com.tbk.letsshare.Comm_Data.ItemDataResponse;
+import com.tbk.letsshare.ItemDetailedActivity;
+import com.tbk.letsshare.ListManager.ChatListAdapter;
+import com.tbk.letsshare.ListManager.ChatListContainer;
 import com.tbk.letsshare.ListManager.ItemListAdapter;
 import com.tbk.letsshare.ListManager.ItemListContainer;
+import com.tbk.letsshare.LoginActivity;
 import com.tbk.letsshare.R;
+import com.tbk.letsshare.network.RetrofitClient;
+import com.tbk.letsshare.network.ServiceApi;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 public class FragmentChat extends Fragment {
 
-    public static FragmentChat newInstance() {
-        return new FragmentChat();
-    }
+    private ServiceApi client;
+    private RecyclerView mRecyclerView;
+    private ArrayList<ChatListContainer> mArrayList;
+    private ChatListAdapter mAdapter;
 
-    private ArrayList<ItemListContainer> mArrayList;
-    private ItemListAdapter mAdapter;
-    private int count = -1;
+    private SharedPreferences sf;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_chat, container, false);
 
-        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_chatlist);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView3);
+        Picasso.get().load("http://wwwns.akamai.com/media_resources/globe_emea.png").into(imageView);
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_chatlist);
 
 
-        mArrayList = new ArrayList<>();
+        sf = getActivity().getSharedPreferences("sFile", MODE_PRIVATE);
+        String userID = sf.getString("user_id", "NaN");
 
-        mAdapter = new ItemListAdapter(mArrayList);
-        mRecyclerView.setAdapter(mAdapter);
-
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                mLinearLayoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
-
-        Button buttonInsert = (Button) rootView.findViewById(R.id.button_main_insert2);
-        buttonInsert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                count++;
-
-                ItemListContainer data = new ItemListContainer(R.drawable.ic_launcher_background, "Name", "ChatContext will be displayed here", "Yesterday");
-
-                //mArrayList.add(0, dict); //RecyclerView의 첫 줄에 삽입
-                mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+        if(userID == "NaN"){
+            String action;
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        }
+        //@mode : refer or add
+        chatRoom(new ChatRoomReq(userID, "refer"));
         return rootView;
     }
-}
+
+    public void chatRoom(ChatRoomReq req) {
+        client = RetrofitClient.getClient().create(ServiceApi.class);
+        Call<List<ChatRoomRes>> call = client.chatRoom(req);
+
+        //req : buyer_id, mode
+        //res : chat_room_id, seller_id,last_statement
+        call.enqueue(new Callback<List<ChatRoomRes>>()
+
+            {
+                @Override
+                public void onResponse(Call<List<ChatRoomRes>> call, Response<List<ChatRoomRes>> response){
+                List<ChatRoomRes> resource = response.body();
+                //  Toast.makeText(getActivity(), "DB와의 통신에 성공했습니다", Toast.LENGTH_LONG).show();
+                mArrayList = new ArrayList<>();
+                for (ChatRoomRes data : resource) {
+                    ChatListContainer container = new ChatListContainer();
+                    // 리스트 한 개에 대한 값 설정
+                    container.setRoomId(data.getChatRoomId());
+                    container.setRoomTitle(data.getSeller_id());
+                    container.setLast_statement(data.getLastStatement());
+                    mArrayList.add(container); // 이걸 전체 리스트에 차곡차곡 쌓아줌
+
+                    //[{이름 : name, 날짜 : date, 가격 : price }, {이름 : name, 날짜 : date, 가격 : price } ]
+                    // 중괄호 안의 개별 데이터를 container를 통해 담고 그렇게 생성된
+                    // container 데이터 한 덩어리를 통째로 mArrayList에 삽입.
+                } // data를 리스트에 쌓는 과정
+                //Toast.makeText(getActivity(), mArrayList.get(2).getImageURL(),Toast.LENGTH_SHORT).show();
+
+                mRecyclerView.setHasFixedSize(true);
+                LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+                mRecyclerView.setLayoutManager(mLinearLayoutManager);
+                mAdapter = new ChatListAdapter(mArrayList);
+                mRecyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+
+                //채팅창 이동 | 아이템 정보를 넘겨주며 ChatRoomActivity 이동
+                mAdapter.setOnItemClickListener(new ChatListAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int pos) {
+                        Intent intent = new Intent(getActivity(), ChatRoomActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+                @Override
+                public void onFailure (Call < List < ChatRoomRes >> call, Throwable t){
+                try {
+                    Toast.makeText(getActivity(), "FragmentChat: DB와의 통신에 실패했습니다.", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "에러 발생, 앱을 종료합니다.", Toast.LENGTH_LONG).show();
+                    Log.e("에러 발생", t.getMessage());
+                }
+
+            }
+            });
+        }
+
+    }

@@ -27,7 +27,8 @@ subprojects {
 }
 
 dependencies {
-//    implementation 'com.android.volley:volley:1.1.0'
+//    implementation 'com.android.volley:volley:1.1.0'\
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.code.gson:gson:2.3.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -43,7 +44,12 @@ dependencies {
 //    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation'com.squareup.okhttp:okhttp:2.4.0'
-    implementation'com.squareup.okhttp3:logging-interceptor:3.3.1'
+    implementation 'com.squareup.okhttp:okhttp:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+    implementation('io.socket:socket.io-client:1.0.0') {
+        exclude group: 'org.json', module: 'json'
+        //https://dev-juyoung.github.io/2017/09/05/android-socket-io/
+        //  https://www.slideshare.net/ssuserf64d04/nodeexpress
+    }
 
 }
