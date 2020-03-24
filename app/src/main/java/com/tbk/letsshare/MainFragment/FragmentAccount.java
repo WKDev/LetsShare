@@ -1,5 +1,6 @@
 package com.tbk.letsshare.MainFragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.tbk.letsshare.Comm_Data.LogoutReq;
 import com.tbk.letsshare.Comm_Data.LogoutRes;
@@ -69,11 +72,11 @@ public class FragmentAccount extends Fragment {
 
         sf = getActivity().getSharedPreferences("sFile", MODE_PRIVATE);
 
-        userID = sf.getString("user_id", "NaN");
+        userID = sf.getString("user_id", "account:null");
 
         accId.setText(userID);
-        accNickname.setText(sf.getString("nickname", "NaN"));
-        accEmail.setText(sf.getString("email", "NaN"));
+        accNickname.setText(sf.getString("nickname", "account:null"));
+        accEmail.setText(sf.getString("email", "account:null"));
 
         aLoginState = sf.getString("auto_login", "false");
 
@@ -87,6 +90,8 @@ public class FragmentAccount extends Fragment {
             @Override
             public void onClick(View v) {
                 logout(new LogoutReq(userID));
+
+
             }
         });
 
@@ -114,7 +119,7 @@ public class FragmentAccount extends Fragment {
                             });
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                } else{
+                } else {
                     isAutoLoginChecked = "false";
                     changeState(new verifyStateReq(userID, isAutoLoginChecked, "in_use"));
                 }
@@ -141,8 +146,9 @@ public class FragmentAccount extends Fragment {
                     if (result.getValue() == "false") {
                         AutoLoginBox.setChecked(false);
                         saveData("auto_login", "false");
+                        Toast.makeText(getContext(), "autologin" + sf.getString("auto_login", ""), Toast.LENGTH_SHORT).show();
+
                     }
-                    Toast.makeText(getContext(), "autologin 불러오기 성공", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -158,19 +164,31 @@ public class FragmentAccount extends Fragment {
         service.userLogout(data).enqueue(new Callback<LogoutRes>() {
             @Override
             public void onResponse(Call<LogoutRes> call, Response<LogoutRes> response) {
+                Context context = getActivity();
                 LogoutRes result = response.body();
                 Log.e("로그아웃 시도 : ", "");
                 if (result.getCode() == 200) {
-                    Intent intent = new Intent(getContext(), MainActivity.class);
 
-                    sf = getContext().getSharedPreferences("sFile", MODE_PRIVATE);
+                    sf = context.getSharedPreferences("sFile", MODE_PRIVATE);
                     editor = sf.edit();
                     editor.putInt("login_state", 404).apply();
 
-                    Toast.makeText(getContext(), "로그아웃 성공" + sf.getInt("login_state", 1000), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "로그아웃 성공" + sf.getInt("login_state", 1000), Toast.LENGTH_SHORT).show();
 
+                    editor.putInt("login_state", 404);
+                    editor.remove("user_id");
+                    editor.remove("code");
+                    editor.remove("nickname");
+                    editor.remove("email");
+                    editor.remove("auto_login").apply();
 
-                    startActivity(intent);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction().remove(FragmentAccount.this).commit();
+                    //fragmentManager.popBackStack();
+
+                    FragmentHome fragmentHome = new FragmentHome();
+                    FragmentTransaction tr = fragmentManager.beginTransaction();
+                    tr.replace(R.id.main_frame, fragmentHome).commit();
                 }
 
             }

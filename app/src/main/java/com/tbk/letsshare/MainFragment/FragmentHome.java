@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.squareup.picasso.Picasso;
 import com.tbk.letsshare.Comm_Data.ItemDataResponse;
 import com.tbk.letsshare.ItemDetailedActivity;
 import com.tbk.letsshare.ListManager.ItemListAdapter;
@@ -27,14 +26,9 @@ import com.tbk.letsshare.R;
 import com.tbk.letsshare.network.RetrofitClient;
 import com.tbk.letsshare.network.ServiceApi;
 
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

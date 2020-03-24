@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.tbk.letsshare.R;
 
 import java.util.ArrayList;
@@ -19,13 +19,13 @@ import java.util.ArrayList;
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.CustomViewHolder> {
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(View v, int pos);
     }
 
     private OnItemClickListener mListener = null;
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener;
     }
 
@@ -73,7 +73,12 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Custom
         Context context = viewholder.thumbnail.getContext();
 
         //https://www.learn2crack.com/2016/02/image-loading-recyclerview-picasso.html picasso 사용 참조
-        Picasso.get().load(mList.get(position).getImageURL()).resize(300, 160).into(viewholder.thumbnail);
+        Glide.with(context)
+                .load(mList.get(position).getImageURL())
+                .centerCrop()
+                .thumbnail(0.2f)
+                .placeholder(R.drawable.loading)
+                .into(viewholder.thumbnail);
 
         viewholder.name.setText(mList.get(position).getName());
         viewholder.price.setText(mList.get(position).getPrice());
@@ -84,15 +89,14 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Custom
             public void onClick(View v) {
                 int pos = position;
 
-                if(pos!= RecyclerView.NO_POSITION){
-                    if(mListener!=null){
+                if (pos != RecyclerView.NO_POSITION) {
+                    if (mListener != null) {
                         mListener.onItemClick(v, pos);
                     }
                 }
             }
         });
     }
-
 
 
     @Override

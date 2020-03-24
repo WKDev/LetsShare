@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,33 +16,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.tbk.letsshare.ChatRoomActivity;
 import com.tbk.letsshare.Comm_Data.ChatRoomReq;
 import com.tbk.letsshare.Comm_Data.ChatRoomRes;
-import com.tbk.letsshare.Comm_Data.ItemDataResponse;
-import com.tbk.letsshare.ItemDetailedActivity;
+
 import com.tbk.letsshare.ListManager.ChatListAdapter;
 import com.tbk.letsshare.ListManager.ChatListContainer;
-import com.tbk.letsshare.ListManager.ItemListAdapter;
-import com.tbk.letsshare.ListManager.ItemListContainer;
-import com.tbk.letsshare.LoginActivity;
+
 import com.tbk.letsshare.R;
 import com.tbk.letsshare.network.RetrofitClient;
 import com.tbk.letsshare.network.ServiceApi;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,7 +42,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class FragmentChat extends Fragment {
 
     private ServiceApi client;
-    private RecyclerView mRecyclerView;
+    private RecyclerView RecyclerChat;
     private ArrayList<ChatListContainer> mArrayList;
     private ChatListAdapter mAdapter;
 
@@ -64,19 +52,16 @@ public class FragmentChat extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_chat, container, false);
 
         ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView3);
-        Picasso.get().load("http://wwwns.akamai.com/media_resources/globe_emea.png").into(imageView);
-
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_chatlist);
-
+        Glide.with(getContext()).load("http://wwwns.akamai.com/media_resources/globe_emea.png").into(imageView);
+        RecyclerChat = (RecyclerView) rootView.findViewById(R.id.recycler_chatlist);
+        RecyclerChat.setHasFixedSize(true);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerChat.setLayoutManager(mLinearLayoutManager);
+        mAdapter = new ChatListAdapter(mArrayList);
 
         sf = getActivity().getSharedPreferences("sFile", MODE_PRIVATE);
-        String userID = sf.getString("user_id", "NaN");
+        String userID = sf.getString("user_id", "null");
 
-        if(userID == "NaN"){
-            String action;
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-        }
         //@mode : refer or add
         chatRoom(new ChatRoomReq(userID, "refer"));
         return rootView;
@@ -88,14 +73,13 @@ public class FragmentChat extends Fragment {
 
         //req : buyer_id, mode
         //res : chat_room_id, seller_id,last_statement
-        call.enqueue(new Callback<List<ChatRoomRes>>()
-
-            {
-                @Override
-                public void onResponse(Call<List<ChatRoomRes>> call, Response<List<ChatRoomRes>> response){
+        call.enqueue(new Callback<List<ChatRoomRes>>() {
+            @Override
+            public void onResponse(Call<List<ChatRoomRes>> call, Response<List<ChatRoomRes>> response) {
                 List<ChatRoomRes> resource = response.body();
                 //  Toast.makeText(getActivity(), "DB와의 통신에 성공했습니다", Toast.LENGTH_LONG).show();
                 mArrayList = new ArrayList<>();
+                mAdapter = new ChatListAdapter(mArrayList);
                 for (ChatRoomRes data : resource) {
                     ChatListContainer container = new ChatListContainer();
                     // 리스트 한 개에 대한 값 설정
@@ -108,13 +92,11 @@ public class FragmentChat extends Fragment {
                     // 중괄호 안의 개별 데이터를 container를 통해 담고 그렇게 생성된
                     // container 데이터 한 덩어리를 통째로 mArrayList에 삽입.
                 } // data를 리스트에 쌓는 과정
-                //Toast.makeText(getActivity(), mArrayList.get(2).getImageURL(),Toast.LENGTH_SHORT).show();
-
-                mRecyclerView.setHasFixedSize(true);
+                RecyclerChat.setAdapter(mAdapter);
+                //Toast.makeText(getActivity(), mArrayList.get(2).getImageURL(),Toast.LENGTH_SHORT).show();mAdapter.notifyDataSetChanged();
+                RecyclerChat.setHasFixedSize(true);
                 LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
-                mRecyclerView.setLayoutManager(mLinearLayoutManager);
-                mAdapter = new ChatListAdapter(mArrayList);
-                mRecyclerView.setAdapter(mAdapter);
+                RecyclerChat.setLayoutManager(mLinearLayoutManager);
                 mAdapter.notifyDataSetChanged();
 
                 //채팅창 이동 | 아이템 정보를 넘겨주며 ChatRoomActivity 이동
@@ -122,13 +104,14 @@ public class FragmentChat extends Fragment {
                     @Override
                     public void onItemClick(View v, int pos) {
                         Intent intent = new Intent(getActivity(), ChatRoomActivity.class);
+                        intent.putExtra("chat_room_id", mArrayList.get(pos).getRoomId());
                         startActivity(intent);
                     }
                 });
             }
 
-                @Override
-                public void onFailure (Call < List < ChatRoomRes >> call, Throwable t){
+            @Override
+            public void onFailure(Call<List<ChatRoomRes>> call, Throwable t) {
                 try {
                     Toast.makeText(getActivity(), "FragmentChat: DB와의 통신에 실패했습니다.", Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
@@ -137,7 +120,7 @@ public class FragmentChat extends Fragment {
                 }
 
             }
-            });
-        }
-
+        });
     }
+
+}

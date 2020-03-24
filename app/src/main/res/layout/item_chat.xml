@@ -36,14 +36,14 @@
                     android:id="@+id/chatlist_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Item"
+                    android:text="ChatRoomName"
                     android:textSize="25dp" />
 
                 <TextView
                     android:id="@+id/chatlist_last_statement"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Price" />
+                    android:text="LastStatement" />
 
             </LinearLayout>
         </LinearLayout>
